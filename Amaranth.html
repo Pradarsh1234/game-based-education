@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About-Amaranth</title>
+    <style>
+        body {
+      /*background-image: url(https://i0.wp.com/backgroundabstract.com/wp-content/uploads/edd/2022/02/5594016-e1656071131636.jpg?resize=150150&ssl=1);
+      background-attachment: fixed;
+      background-size: cover;
+      background-size: auto;*/
+      font-family: roboto,arial;
+      color: white;
+      margin: 0;
+      padding-bottom: 50px;
+      background-image: linear-gradient(rgb(0,0,0),rgb(15, 15, 15),rgb(29, 29, 29),rgb(41, 40, 40),rgb(53, 50, 50));
+    }
+
+    header {
+      background-color: none;
+      color: rgb(71, 70, 70);
+      text-align: center;
+      padding: 10px;
+    }
+
+    main {
+      background-size: auto;
+      display: flex;
+      justify-content: space-between;
+      padding: 50px;
+      padding-bottom: 100px;
+    }
+
+    .left-section {
+      width: 35%;
+    }
+
+    .right-section{
+        width: 90%;
+        margin-left: 10px;
+    }
+
+    .container {
+      background-color: lightgrey;
+      border: 1px solid rgb(43, 41, 41);
+      color: rgb(32, 31, 31);
+      border-radius: 100px 20px;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .container h2 {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .container-content {
+      display: none;
+    }
+
+    .container h2::after {
+      content: "▶";
+      margin-left: 5px;
+      transition: transform 0.3s;
+    }
+
+    .container.open h2::after {
+      transform: rotate(90deg);
+    }
+
+    .container.open .container-content {
+      display: block;
+    }
+
+    .links-container {
+      margin-top: 10px;
+      display: none;
+    }
+    a{
+      text-decoration: none;
+      color: rgb(243, 243, 130);
+    }
+    h2{
+      color: rgb(0,0,0);
+    }
+    /*chatbot css*/
+    #chat-container {
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 70px 0px;
+      background-color: #e2e0e0;
+      color: rgb(31, 30, 30);
+    }
+
+    #chat-box {
+      height: 200px;
+      overflow-y: scroll;
+      padding: 10px;
+      scrollbar-width: thin;
+    }
+
+    #input-box {
+      display: flex;
+      padding: 10px;
+    }
+
+    #user-input {
+      flex-grow: 1;
+      padding: 8px;
+      border: 1px solid #f5f1f1;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
+
+    #send-button {
+      background-color: #4caf50;
+      color: #fcfafa;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .m{
+      padding-bottom: 0px;
+    }
+    .feedback-div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .feedback-input{
+      margin-top: 10px;
+      height: 50px;
+      border-radius: 35px;
+      padding-left: 10px;
+      border: solid 1px grey;
+      font-size: 20px;
+    }
+    .submit-button{
+      margin-bottom: 25px;
+      width: 100px;
+      height: 40px;
+      background-color: rgb(48, 99, 209); /* Set button color to green */
+      color: white; /* Set text color to white */
+      border:none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .submit-button:hover{
+      background-color: rgb(102, 134, 202);    }
+    .submit-button:active{
+      background-color: rgb(124, 149, 202);
+    }
+    /*rps game*/
+    .main-div{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.emoj-buttons{
+    display: flex;
+    margin-bottom: 50px;
+}
+.move-icon{
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+}
+.move-button{
+    background-color: transparent;
+    border: solid;
+    border-color: rgb(22, 21, 21);
+    border-radius: 70px;
+    padding: 15px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.score{
+    margin-top: 55px;
+}
+.reset-button{
+    padding: 10px 15px;
+    background-color: transparent;
+    border: solid ;
+    border-color: rgb(22, 21, 21);
+    border-radius: 20px;
+    color: rgb(22, 21, 21);
+    cursor: pointer;
+    margin-top: 20px;
+}
+.outcome{
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+    </style>
+</head>
+<body>
+    <div>
+        <header>
+            <h1 style="color: lightgrey; font-size: 40px;">Amaranth</h1>
+          </header>
+        
+          <main class="main m">
+            <div class="left-section">
+              <!-- Left Section Content Goes Here -->
+              <div id="chat-container">
+                <p style="text-align: center; font-weight: bolder;">CHATBOT</p>
+                <div id="chat-box"></div>
+                <div id="input-box">
+                  <input type="text" id="user-input" placeholder="Type your question...">
+                  <button id="send-button" onclick="sendMessage()">Send</button>
+                </div>
+              </div>
+            </div>
+        
+            <div class="right-section">
+              <div class="container" id="youtube-container">
+                <h2 onclick="toggleContainer('youtube-container')">About Amaranth</h2>
+                <div class="container-content">
+                  <div class="links-container" id="youtube-links">
+                    <h3>Amaranth: The Ancient Grain of Enduring Nutrition</h3>
+
+                        Amaranth, often referred to as the "golden grain of the gods," is a versatile and highly nutritious pseudo-cereal that has been cultivated and revered for centuries across various cultures worldwide. Its rich history, exceptional nutritional profile, and culinary versatility make it a fascinating subject worthy of exploration.
+
+                        <h3>Historical Significance:</h3>
+                        The history of amaranth traces back thousands of years, with evidence of its cultivation dating back to ancient civilizations such as the Aztecs and Incas in Central and South America. These ancient cultures held amaranth in high esteem, considering it a sacred crop with spiritual significance. Amaranth was not only a dietary staple but also used in religious ceremonies and rituals.
+
+                        <h3>Nutritional Profile:</h3>
+                        One of the most remarkable aspects of amaranth is its exceptional nutritional composition. It is packed with essential nutrients, making it a valuable addition to any diet. Amaranth is an excellent source of protein, containing all nine essential amino acids, including lysine, which is often lacking in other grains. Additionally, it is rich in fiber, vitamins, and minerals such as iron, magnesium, phosphorus, and potassium. Its gluten-free nature further enhances its appeal, catering to individuals with dietary restrictions or sensitivities.
+
+                        <h3>Culinary Versatility:</h3>
+                        Amaranth's versatility in the kitchen is another aspect that sets it apart. It can be enjoyed in various forms, including whole grain, flour, flakes, or popped kernels. Cooked amaranth has a slightly nutty flavor and a unique, chewy texture, making it suitable for both sweet and savory dishes. It can be used as a base for porridge, added to soups and stews, or incorporated into salads and baked goods. Amaranth flour is commonly used in gluten-free baking, producing bread, muffins, and pancakes with a dense and hearty texture. Additionally, popped amaranth can be used as a topping for cereals, yogurt, or desserts, adding a crunchy element and nutty flavor.
+
+                        <h3>Sustainability and Environmental Impact:</h3>
+                        Amaranth cultivation offers several environmental benefits. It is a hardy crop that can thrive in diverse climates and soil conditions, requiring minimal water and fertilizer compared to other grains. Its efficient use of resources and resilience to environmental stressors make it a sustainable choice for farmers. Additionally, amaranth's ability to improve soil quality through its deep root system and nutrient cycling further enhances its eco-friendly credentials.
+
+                        <h3>Conclusion:</h3>
+                        In conclusion, amaranth stands out as a nutritional powerhouse with a rich history and remarkable versatility. Its ancient origins and enduring popularity underscore its importance as a sustainable and nutritious food source for present and future generations. Whether enjoyed as a wholesome grain, flour, or popped snack, amaranth continues to captivate the culinary world with its exceptional flavor and health benefits. Incorporating amaranth into your diet not only nourishes the body but also honors the cultural heritage and traditions associated with this ancient grain.
+                  </div>
+                </div>
+              </div>
+        
+              <div class="container" id="ai-tools-container">
+                <h2 onclick="toggleContainer('ai-tools-container')">Benifits</h2>
+                <div class="container-content">
+                    <h3>Unveiling the Abundant Benefits of Amaranth</h3>
+
+                    Amaranth, often hailed as a "superfood," offers an array of health benefits that make it a valuable addition to any diet. From its rich nutrient content to its potential role in disease prevention, amaranth stands out as a versatile and nourishing grain with numerous advantages. Let's delve into the many benefits of incorporating amaranth into your diet:
+                    
+                    <h3>1. Nutrient Powerhouse:</h3>
+                    Amaranth is packed with essential nutrients, including protein, fiber, vitamins, and minerals. Unlike most grains, it contains all nine essential amino acids, making it a complete protein source. This makes it particularly beneficial for vegetarians, vegans, and individuals seeking alternative protein sources.
+                    
+                    <h3>2. Heart Health:</h3>
+                    The high fiber content of amaranth supports heart health by lowering cholesterol levels and reducing the risk of cardiovascular disease. Additionally, amaranth contains phytosterols, compounds known to inhibit cholesterol absorption, further promoting heart health.
+                    
+                    <h3>3. Blood Sugar Control:</h3>
+                    Amaranth has a low glycemic index, meaning it does not cause a rapid spike in blood sugar levels after consumption. This makes it an excellent choice for individuals with diabetes or those looking to manage their blood sugar levels.
+                    
+                    <h3>4. Digestive Health:</h3>
+                    The fiber in amaranth promotes digestive health by aiding in regular bowel movements, preventing constipation, and supporting a healthy gut microbiome. Additionally, the insoluble fiber found in amaranth may help reduce the risk of colon cancer.
+                    
+                    <h3>5. Bone Health:</h3>
+                    Amaranth is a good source of calcium, magnesium, phosphorus, and manganese, all of which are essential for maintaining healthy bones and preventing osteoporosis. These minerals work synergistically to support bone density and strength.
+                    
+                    <h3>6. Anti-inflammatory Properties:</h3>
+                    Certain bioactive compounds found in amaranth, such as squalene and betalains, exhibit anti-inflammatory properties. Consuming foods rich in these compounds may help reduce inflammation in the body and alleviate symptoms of inflammatory conditions such as arthritis.
+                    
+                    <h3>7. Weight Management:</h3>
+                    Amaranth's high protein and fiber content can help promote satiety and reduce appetite, making it a valuable addition to weight management diets. Including amaranth in meals may help prevent overeating and contribute to achieving and maintaining a healthy weight.
+                    
+                    <h3>8. Gluten-Free Alternative:</h3>
+                    For individuals with gluten intolerance or celiac disease, amaranth offers a nutritious gluten-free alternative to wheat and other gluten-containing grains. Its gluten-free nature allows those with gluten sensitivities to enjoy a variety of delicious and nutritious foods without adverse effects.
+                    
+                    <h3>9. Versatility in Cooking:</h3>
+                    Amaranth's versatility extends to its culinary applications. It can be cooked as a whole grain, ground into flour, or popped like popcorn. From porridge and salads to baked goods and savory dishes, the possibilities for incorporating amaranth into recipes are endless.
+                    
+                    <h3>Conclusion:</h3>
+                    In conclusion, the benefits of amaranth extend far beyond its nutritional value. Its diverse array of health-promoting properties, from supporting heart health and blood sugar control to aiding in digestion and bone health, make it a standout grain in the realm of functional foods. Whether you're seeking to improve your overall well-being, manage a specific health condition, or simply add variety to your diet, incorporating amaranth into your meals is a delicious and nutritious choice that your body will thank you for.                    
+                </div>
+              </div>
+        
+              <div class="container" id="notes-container">
+                <h2 onclick="toggleContainer('notes-container')">Game</h2>
+                  <div class="container-content">
+                    <main class="main-div">
+                      <h1>Cauliflower - Amaranth - Cotton</h1>
+                      <div class="emoj-buttons">
+                          <button onclick = "
+                              playGame('rock')" class="move-button"
+                          ><img src="rock-emoji.png" class="move-icon"></button>
+          
+                          <button onclick="
+                              playGame('paper')" class="move-button"
+                          ><img src="paper-emoji.png" class="move-icon"></button>
+          
+                          <button onclick= "
+                              playGame('scissor');"
+                              class="move-button"
+                          ><img src="scissor-emoji.png" class="move-icon"></button>
+                      </div>
+          
+                      <p class="js-outcome outcome"></p>
+                      <p class="js-moves moves"></p>
+                      <p class="js-score score"></p>
+          
+                      <button onclick="
+                          console.log('Reset')
+                          playGame('reset')" class="reset-button"
+                      >RESET SCORE</button>
+                  </main>
+                  </div>
+              </div>
+        
+              <!-- <div class="container" id="data-container">
+                <h2 onclick="toggleContainer('data-container')"></h2>
+                <div class="container-content">
+                  
+                  contents
+                </div>
+              </div> -->
+            </div>
+          </main>
+    </div>
+
+
+    <div class="feedback-div">
+        <h1 style="font-size: 40px;">User Feedback</h1>
+        <form id="feedbackForm">
+            <label for="feedback" style="font-size: 20px;">Enter your feedback:</label><br>
+            <input type="text" id="feedback" name="feedback" class="feedback-input" placeholder="feedback"><br><br>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+        <div id="message"></div>
+      </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const feedback = document.getElementById('feedback').value;
+
+            fetch('/submit-feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ feedback })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+
+        //trying
+
+        function toggleContainer(containerId) {
+      var container = document.getElementById(containerId);
+      var linksContainer = container.querySelector('.links-container');
+
+      container.classList.toggle('open');
+      linksContainer.style.display = linksContainer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    //chatbot section
+    function sendMessage() {
+      var userMessage = document.getElementById('user-input').value;
+      var aiResponse = getAIResponse(userMessage);
+      displayMessage(userMessage, 'user');
+      displayMessage(aiResponse, 'ai');
+      document.getElementById('user-input').value = '';
+    }
+
+    function getAIResponse(userMessage) {
+      // Check if certain words are present in the user's question
+      if (containsWord(userMessage, 'grown')) {
+        return "Tamil Nadu, Madhya Pradesh, Gujarat and Maharashtra.";
+
+      } else if (containsWord(userMessage, 'applications of machine learning')) {
+        return `Machine learning is used to enable computers to learn from data and make predictions or decisions, facilitating automation, pattern recognition, and insights extraction in various domains such as finance, healthcare, and technology. It helps optimize processes and enhance decision-making based on learned patterns.`;
+
+      } else if (containsWord(userMessage, 'scope of machine learning')) {
+        return `Machine learning holds immense scope in revolutionizing industries through automation, data-driven insights, and predictive capabilities, contributing to advancements in areas like healthcare, finance, and technology, shaping the future of intelligent systems and decision-making.`;
+
+      } else {
+        return "'I'm sorry, I don't understand that question or check for typing mistakes'";
+      }
+    }
+
+    function containsWord(sentence, word) {
+      return sentence.toLowerCase().includes(word.toLowerCase());
+    }
+
+    function displayMessage(message, sender) {
+      var chatBox = document.getElementById('chat-box');
+      var messageElement = document.createElement('div');
+      messageElement.className = sender === 'ai' ? 'ai-message' : 'user-message';
+      messageElement.textContent = message;
+
+       // Add margin-bottom for spacing between messages
+       messageElement.style.marginBottom = '10px';
+
+      chatBox.appendChild(messageElement);
+
+      // Scroll to the bottom of the chat box
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    //rps js
+    let score = JSON.parse(localStorage.getItem('score'))
+
+        if (score === null) {
+            score = {
+                wins: 0,
+                losses: 0,
+                ties: 0
+            }
+        }
+        updateScoreElement();
+        
+        function playGame(playerMove) {
+            const computer_move = pickComputerMove();
+            outcome = '';
+
+            if (playerMove === 'scissor') {
+                if (computer_move === 'rock'){
+                    outcome = 'You lose';
+                } else if (computer_move === 'paper') {
+                    outcome = 'You win';
+                } else if (computer_move === 'scissor') {
+                    outcome = 'Tie';
+                }
+                
+            } else if (playerMove === 'paper') {
+                if (computer_move === 'rock'){
+                    outcome = 'You win';
+                } else if (computer_move === 'paper') {
+                    outcome = 'Tie';
+                } else if (computer_move === 'scissor') {
+                    outcome = 'You lose';
+                }
+
+            } else if (playerMove === 'rock') {
+                if (computer_move === 'rock'){
+                    outcome = 'Tie';
+                } else if (computer_move === 'paper') {
+                    outcome = 'You lose';
+                } else if (computer_move === 'scissor') {
+                    outcome = 'You win';
+                }
+            } else if (playerMove === 'reset') {
+                score.wins = 0,
+                score.losses = 0,
+                score.ties = 0
+            }
+            updateScoreElement()
+
+            if (outcome === 'You win' || outcome === 'You lose' || outcome === 'Tie' ) {
+                console.log(outcome);
+            }
+            
+            if (outcome === 'You win') {
+                score.wins += 1;
+            } 
+            else if (outcome === 'You lose') {
+                score.losses +=1;
+            }
+            else if (outcome === 'Tie') {
+                score.ties +=1;
+            }       
+
+            localStorage.setItem('score', JSON.stringify(score) )
+            
+            updateScoreElement();
+            document.querySelector('.js-outcome')
+              .innerHTML = `<p style="text-align: center;">${outcome}</p> <br> Amaranth is the best crop to grow this month`;
+            if (playerMove === 'scissor' || playerMove === 'paper' || playerMove === 'rock' ) {
+                document.querySelector('.js-moves')
+                    .innerHTML = `Your move: <img src="${playerMove}-emoji.png" class="move-icon"> <img src="${computer_move}-emoji.png" class="move-icon"> :Computer move`;
+            }
+
+        }
+        function updateScoreElement() {
+            document.querySelector('.js-score')
+             .innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}`
+        }
+        
+        function pickComputerMove() {
+        
+            const randomNumber = Math.random();          
+
+            if (randomNumber >= 0 && randomNumber < 1/3){
+                computer_move = 'rock';
+            } else if (randomNumber >= 1/3 && randomNumber < 2/3){
+                computer_move = 'paper';
+            } else if (randomNumber >= 2/3 && randomNumber < 1){
+                computer_move = 'scissor';
+            };
+
+            //console.log(computer_move)
+
+            return computer_move;
+        }
+    </script>
+</body>
+</html>
